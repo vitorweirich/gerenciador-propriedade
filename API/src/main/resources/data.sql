@@ -1,0 +1,9 @@
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('222222', 'Bonita', 'nada', 2, '2020-10-10', '2021-05-06', '2021-07-06', '2021-08-16');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('333333', 'Gemea', 'nada', 3, '2020-10-10', '2021-04-14', '2021-07-06', '2021-08-16');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('444444', 'Tiller', 'nada', 4, '2020-07-25', '2020-02-25', '2021-03-25', '2021-05-04');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('555555', 'Mini Kot', 'nada', 5, '2018-10-10', '2018-10-10', '2018-10-10', '2018-10-10');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('111771', 'Turtle', 'nada', 1, '2021-05-06', '2021-12-06', '2021-02-06', '2021-03-16');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('222772', 'Aurea', 'nada', 2, '2020-10-10', '2021-05-06', '2021-07-06', '2021-08-16');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('333773', 'Malhada', 'nada', 3, '2020-10-10', '2021-04-14', '2021-07-06', '2021-08-16');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('444774', 'Zarca', 'nada', 4, '2020-07-25', '2020-02-25', '2021-03-25', '2021-05-04');
+insert into VACA (numero, nome, cor, N_Crias, ensiminacao, secagem, parto, nova_ensiminacao) values ('555775', 'Bauxita', 'nada', 5, '2018-10-10', '2018-10-10', '2018-10-10', '2018-10-10');

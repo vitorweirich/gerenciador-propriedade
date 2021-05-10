@@ -15,7 +15,7 @@ def listar_vacas(pesquisar):
 def montaTabela(todos):
     i = 0;
     interface.tabela.setRowCount(len(todos))
-    interface.tabela.setColumnCount(7)
+    interface.tabela.setColumnCount(9)
     for j in todos:
         aux = j['cor']
         if aux == 'vermelho':
@@ -49,6 +49,12 @@ def montaTabela(todos):
         aux = j['nCrias']
         interface.tabela.setItem(i,6,QtWidgets.QTableWidgetItem(str(aux)))
         interface.tabela.item(i, 6).setBackground(cor)
+        aux = "nada"
+        interface.tabela.setItem(i,7,QtWidgets.QTableWidgetItem(str(aux)))
+        interface.tabela.item(i, 7).setBackground(cor)
+        aux = j['diasLactacao']
+        interface.tabela.setItem(i,8,QtWidgets.QTableWidgetItem(str(aux)))
+        interface.tabela.item(i, 8).setBackground(cor)
         i+=1
     interface.tabela.resizeColumnsToContents()
 

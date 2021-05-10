@@ -1,5 +1,6 @@
 package com.teste.vacas.vacas.modelo.dto;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +12,7 @@ public class VacaDto {
 
 	private static DateTimeFormatter formaterBr = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 			.withLocale(new Locale("pt", "BR"));
+	private static DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	private String numero;
 	private String nome;
@@ -20,6 +22,8 @@ public class VacaDto {
 	private String novaEnsiminacao;
 	private Integer nCrias;
 	private String cor;
+	private String diasLactacao;
+
 
 	public VacaDto(Vaca vaca) {
 		this.numero = vaca.getNumero();
@@ -29,14 +33,32 @@ public class VacaDto {
 			this.secagem = "";
 			this.parto = "";
 			this.novaEnsiminacao = "";	
+			this.diasLactacao = "";
 		} else {
 			this.ensiminacao = vaca.getEnsiminacao().format(formaterBr).replace('-', '/');
 			this.secagem = vaca.getSecagem().format(formaterBr).replace('-', '/');
 			this.parto = vaca.getParto().format(formaterBr).replace('-', '/');
-			this.novaEnsiminacao = vaca.getNovaEnsiminacao().format(formaterBr).replace('-', '/');			
+			this.novaEnsiminacao = vaca.getNovaEnsiminacao().format(formaterBr).replace('-', '/');
+			this.diasLactacao = contaDias(LocalDate.parse(this.getParto().replace("/", "-"), formater));
 		}
 		this.nCrias = vaca.getnCrias();
 		this.cor = vaca.getCor();
+	}
+
+	private String contaDias(LocalDate data) {
+		if (data == null) {
+			return "";
+		}
+		Integer cont = 0;
+		LocalDate now = LocalDate.now();
+		if (now.isAfter(data)) {
+			while(!data.equals(now)) {
+				data = data.plusDays(1L);
+				cont++;
+			}			
+			return ""+cont;
+		}
+		return "";
 	}
 
 	public static DateTimeFormatter getFormaterBr() {
@@ -47,6 +69,14 @@ public class VacaDto {
 		VacaDto.formaterBr = formaterBr;
 	}
 
+	public String getDiasLactacao() {
+		return diasLactacao;
+	}
+	
+	public void setDiasLactacao(String diasLactacao) {
+		this.diasLactacao = diasLactacao;
+	}
+	
 	public String getNumero() {
 		return numero;
 	}

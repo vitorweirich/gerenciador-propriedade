@@ -34,7 +34,7 @@ public class Vaca {
 	}
 
 	public Vaca(String numero, String nome, String ensiminacao, String secagem, String parto, String novaEnsiminacao,
-			Integer nCrias, String cor) {
+			Integer nCrias, String cor, Integer diasLactacao) {
 		super();
 		this.numero = numero;
 		this.nome = nome;

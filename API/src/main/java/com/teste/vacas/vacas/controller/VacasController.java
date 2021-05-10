@@ -57,11 +57,7 @@ public class VacasController {
 	}
 
 	@GetMapping("/pesquisa")
-	public List<VacaDto> pesquisaVacas(@RequestParam(required = false) String str) {
-		String data = str;
-		if (data.length() < 10) {
-			data = "01-01-1971";
-		}
+	public List<VacaDto> pesquisaVacas(@RequestParam(defaultValue = "01-01-1971", required = false) String str) {
 		List<Vaca> vacas = vacasRepository
 				.findByNomeIgnoreCaseContainingOrNumeroContainingOrderByNome(str, str);
 		return VacaDto.converter(vacas.stream().map(v -> {

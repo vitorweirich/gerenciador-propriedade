@@ -15,6 +15,7 @@ def listar_vacas(pesquisar):
 
 def lista_vacas_inicial(pesquisar):
     aux = 50
+    progresso.carregar.setVisible(False)
     while True:
         try:
             request = requests.get("http://localhost:8080/vacas?cor="+pesquisar)
@@ -27,6 +28,7 @@ def lista_vacas_inicial(pesquisar):
     progresso.close()
     todos = json.loads(request.content)
     montaTabela(todos)
+    interface.show()
 
 
 def montaTabela(todos):
@@ -275,20 +277,18 @@ alterar.alterar.clicked.connect(lambda: alterarFunc())
 interface.parto.clicked.connect(lambda: parto())
 alterar.editAlterar.textChanged.connect(lambda: verifica_btn_alterar())
 interface.zarar.clicked.connect(lambda: zerar())
+progresso.carregar.clicked.connect(lambda: lista_vacas_inicial(''))
 
-##try:
-##    sp.Popen([".\\vacas.jar"],
-##             shell=True)
-##except:
-##    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
-##              "esteja na mesma pasta que esse .exe !!!!")
-##    sys.exit ()
-    #quit()
+try:
+    sp.Popen([".\\vacas.jar"],
+             shell=True)
+except:
+    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
+              "esteja na mesma pasta que esse .exe !!!!")
+    sys.exit ()
 
 try:
     progresso.show()
-    lista_vacas_inicial('')
-    interface.show()
     app.exec()
 finally:
     try:

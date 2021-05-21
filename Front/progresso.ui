@@ -49,6 +49,23 @@
      <string>Carregando...</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="carregar">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>261</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(85, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>Carregar</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

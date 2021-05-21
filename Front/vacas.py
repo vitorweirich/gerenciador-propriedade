@@ -56,9 +56,10 @@ def pesquisar():
         montaTabela(todos)
 
 def calcular():
+    if not verifica_valor_numero():
+       return
     linha = interface.tabela.currentRow()
     numero = interface.tabela.item(linha, 1).text()
-    print(numero)
     valor = calc.data.date()
     dia = str(valor.day())
     mes = str(valor.month())
@@ -88,6 +89,119 @@ def cadastrar():
     else:
         mostraMsgm("Erro", "O numero digitade pertence a outra vaca!")
 
+def deletar():
+   if not verifica_valor_numero():
+      return
+   linha = interface.tabela.currentRow()
+   msg = QMessageBox()
+   msg.setWindowTitle("Tem certeza")
+   msg.setText("Voce deseja deletar a vaca '"+interface.tabela.item(linha, 0).text()+"'?")
+   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+   
+   msg.setDefaultButton(QMessageBox.Cancel)
+   x = msg.exec_()
+   if x == QMessageBox.Ok:
+      numero = interface.tabela.item(linha, 1).text()
+      try:
+         request = requests.get("http://localhost:8080/vacas/deletar/"+numero)
+         mostraMsgm("Vaca deletada!", f"A vaca {interface.tabela.item(linha, 0).text()} foi deletada do sistema")
+         listar_vacas('')
+      except:
+         mostraMsgm("Erro", f"Não foi possível deletar a vaca {interface.tabela.item(linha, 0).text()}")
+
+def alterarFunc():
+   if not verifica_valor_numero():
+      return
+   linha = interface.tabela.currentRow()
+   numero = interface.tabela.item(linha, 1).text()
+   nome = alterar.editAlterar.text()
+   try:
+      request = requests.get("http://localhost:8080/vacas/alterar/"+numero+"/"+nome)
+      mostraMsgm("Vaca deletada!", f"A vaca {interface.tabela.item(linha, 0).text()} foi alterada no sistema")
+      listar_vacas('')
+   except:
+      mostraMsgm("Erro", f"Não foi possível alterar a vaca {interface.tabela.item(linha, 0).text()}")
+   alterar.editAlterar.setText("")
+   alterar.close()
+
+def mostra_alterar():
+   alterar.show()
+
+def secar():
+   if not verifica_valor_numero():
+      return
+   linha = interface.tabela.currentRow()
+   msg = QMessageBox()
+   msg.setWindowTitle("Tem certeza")
+   msg.setText("Voce deseja secar a vaca '"+interface.tabela.item(linha, 0).text()+"'?")
+   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+   
+   msg.setDefaultButton(QMessageBox.Cancel)
+   x = msg.exec_()
+   if x == QMessageBox.Ok:
+      numero = interface.tabela.item(linha, 1).text()
+      try:
+         request = requests.get("http://localhost:8080/vacas/secar/"+numero)
+         mostraMsgm("Vaca Secada!", f"A vaca {interface.tabela.item(linha, 0).text()} foi secada no sistema")
+         listar_vacas('')
+      except:
+         mostraMsgm("Erro", f"Não foi possível secar a vaca {interface.tabela.item(linha, 0).text()}")
+
+
+def parto():
+   if not verifica_valor_numero():
+      return
+   linha = interface.tabela.currentRow()
+   msg = QMessageBox()
+   msg.setWindowTitle("Tem certeza")
+   msg.setText("Voce deseja mudar a data do parto da vaca '"+interface.tabela.item(linha, 0).text()+"' para hoje?")
+   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+   
+   msg.setDefaultButton(QMessageBox.Cancel)
+   x = msg.exec_()
+   if x == QMessageBox.Ok:
+      numero = interface.tabela.item(linha, 1).text()
+      try:
+         request = requests.get("http://localhost:8080/vacas/parto/"+numero)
+         mostraMsgm("Parto Modificado!", f"A vaca {interface.tabela.item(linha, 0).text()} teve seu parto cadastrado no sistema")
+         listar_vacas('')
+      except:
+         mostraMsgm("Erro", f"Não foi possível cadastrar o parto da a vaca {interface.tabela.item(linha, 0).text()}")
+
+
+def zerar():
+   if not verifica_valor_numero():
+      return
+   linha = interface.tabela.currentRow()
+   msg = QMessageBox()
+   msg.setWindowTitle("Tem certeza")
+   msg.setText("Voce deseja zerar aa datas da vaca '"+interface.tabela.item(linha, 0).text()+"'?")
+   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+   
+   msg.setDefaultButton(QMessageBox.Cancel)
+   x = msg.exec_()
+   if x == QMessageBox.Ok:
+      numero = interface.tabela.item(linha, 1).text()
+      try:
+         request = requests.get("http://localhost:8080/vacas/zerar/"+numero)
+         mostraMsgm("Data Zerada!", f"A vaca {interface.tabela.item(linha, 0).text()} teve suas datas zeradas no sistema")
+         listar_vacas('')
+      except:
+         mostraMsgm("Erro", f"Não foi possível zerar as datas da a vaca {interface.tabela.item(linha, 0).text()}")
+
+
+def verifica_btn_alterar():
+   if alterar.editAlterar.text() != "":
+      alterar.alterar.setEnabled(True)
+   else:
+      alterar.alterar.setEnabled(False)
+
+def verifica_nova():
+   if nova.nome.text() != "" and len(nova.numero.text()) == 6 and nova.numero.text().isdigit() and nova.crias.text().isdigit() and len(nova.crias.text()) >= 1:
+      nova.cadastrar.setEnabled(True)
+   else:
+      nova.cadastrar.setEnabled(False)
+
 def mostraMsgm(titulo, msgm):
     msg = QMessageBox()
     msg.setWindowTitle(titulo)
@@ -111,10 +225,18 @@ class VacasFront(QMainWindow):
         uic.loadUi("interface.ui", self)
 
     def closeEvent(self, event):
-        print("Try onClose do programa")
         url = 'http://localhost:8080/actuator/shutdown'
         x = requests.post(url)
-        print(x.content)
+
+def verifica_valor_numero():
+   try:
+      linha = interface.tabela.currentRow()
+      numero = interface.tabela.item(linha, 1).text()
+      return True
+   except:
+      mostraMsgm("Erro", "Selecione uma vaca primeiro")
+      return False
+   
 
         #importando as interfaces
 interface = VacasFront()
@@ -122,6 +244,7 @@ interface = VacasFront()
 nova = uic.loadUi("nova.ui")
 calc = uic.loadUi("calcular.ui")
 progresso = uic.loadUi("progresso.ui")
+alterar = uic.loadUi("alterar.ui")
 
 
         #Definindo alguns estilos
@@ -140,16 +263,26 @@ interface.pesquisar_3.textChanged.connect(pesquisar)
         #Configurando Botões De CRUD
 interface.nova_vaca.clicked.connect(nova_func)
 nova.cadastrar.clicked.connect(cadastrar)
+nova.nome.textChanged.connect(verifica_nova)
+nova.numero.textChanged.connect(verifica_nova)
+nova.crias.textChanged.connect(verifica_nova)
 interface.calcular.clicked.connect(calcularMostrar)
 calc.calc.clicked.connect(calcular)
+interface.deletar.clicked.connect(lambda: deletar())
+interface.alterar.clicked.connect(lambda: mostra_alterar())
+interface.secar.clicked.connect(lambda: secar())
+alterar.alterar.clicked.connect(lambda: alterarFunc())
+interface.parto.clicked.connect(lambda: parto())
+alterar.editAlterar.textChanged.connect(lambda: verifica_btn_alterar())
+interface.zarar.clicked.connect(lambda: zerar())
 
-try:
-    sp.Popen([".\\vacas.jar"],
-             shell=True)
-except:
-    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
-              "esteja na mesma pasta que esse .exe !!!!")
-    sys.exit ()
+##try:
+##    sp.Popen([".\\vacas.jar"],
+##             shell=True)
+##except:
+##    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
+##              "esteja na mesma pasta que esse .exe !!!!")
+##    sys.exit ()
     #quit()
 
 try:
@@ -159,7 +292,6 @@ try:
     app.exec()
 finally:
     try:
-        print("Try final do programa")
         url = 'http://localhost:8080/actuator/shutdown'
         requests.post(url)
     except:

@@ -28,8 +28,7 @@ public class VacaDto {
 	public VacaDto(Vaca vaca) {
 		this.numero = vaca.getNumero();
 		this.nome = vaca.getNome();
-		if (vaca.getEnsiminacao() == null || vaca.getSecagem() == null || vaca.getParto() == null
-				|| vaca.getNovaEnsiminacao() == null) {
+		if (vaca.getEnsiminacao() == null || vaca.getSecagem() == null) {
 			this.ensiminacao = "";
 			this.secagem = "";
 			this.parto = "";
@@ -38,6 +37,11 @@ public class VacaDto {
 		} else {
 			this.ensiminacao = vaca.getEnsiminacao().format(formaterBr).replace('-', '/');
 			this.secagem = vaca.getSecagem().format(formaterBr).replace('-', '/');
+			this.parto = vaca.getParto().format(formaterBr).replace('-', '/');
+			this.novaEnsiminacao = vaca.getNovaEnsiminacao().format(formaterBr).replace('-', '/');
+			this.diasLactacao = contaDias(LocalDate.parse(this.getParto().replace("/", "-"), formater));
+		}
+		if (vaca.getParto() != null || vaca.getNovaEnsiminacao() != null) {
 			this.parto = vaca.getParto().format(formaterBr).replace('-', '/');
 			this.novaEnsiminacao = vaca.getNovaEnsiminacao().format(formaterBr).replace('-', '/');
 			this.diasLactacao = contaDias(LocalDate.parse(this.getParto().replace("/", "-"), formater));

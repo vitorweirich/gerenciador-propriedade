@@ -94,6 +94,9 @@ public class VacasController {
 	private ResponseEntity<Vaca> cadastrar(@PathVariable @Valid @NotNull @NotEmpty String numero,
 			@PathVariable @Valid @NotNull @NotEmpty String nome,
 			@RequestParam(defaultValue = "0", required = false) String n) {
+		if (vacasRepository.findById(numero).isPresent()) {
+			throw new NumeroEcxeption("Numero ja cadastrado");
+		}
 		Vaca vaca = new Vaca(numero, nome, Integer.valueOf(n));
 		vacasRepository.save(vaca);
 
@@ -115,9 +118,44 @@ public class VacasController {
 	}
 
 	@GetMapping("/deletar/{n}")
+	@Transactional
 	private ResponseEntity<Vaca> deletar(@PathVariable String n) {
 		vacasRepository.deleteById(n);
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/zerar/{n}")
+	@Transactional
+	private ResponseEntity<Vaca> zerar(@PathVariable String n) {
+		Vaca vaca = vacasRepository.findById(n).get();
+		vaca.setEnsiminacao(null);
+		vaca.setNovaEnsiminacao(null);
+		vaca.setParto(null);
+		vaca.setSecagem(null);
+		vacasRepository.save(vaca);
+		return ResponseEntity.ok(vaca);
+	}
+	
+	@GetMapping("/secar/{n}")
+	@Transactional
+	private ResponseEntity<Vaca> secar(@PathVariable String n) {
+		Vaca vaca = vacasRepository.findById(n).get();
+		vaca.setEnsiminacao(null);
+		vaca.setSecagem(null);
+		vacasRepository.save(vaca);
+		return ResponseEntity.ok(vaca);
+	}
+	
+	@GetMapping("/parto/{n}")
+	@Transactional
+	private ResponseEntity<Vaca> parto(@PathVariable String n) {
+		Vaca vaca = vacasRepository.findById(n).get();
+		vaca.setEnsiminacao(null);
+		vaca.setNovaEnsiminacao(LocalDate.now().plusDays(40));
+		vaca.setParto(LocalDate.now());
+		vaca.setSecagem(null);
+		vacasRepository.save(vaca);
+		return ResponseEntity.ok(vaca);
 	}
 
 	private boolean corExiste(Optional<String> cor) {
@@ -125,11 +163,17 @@ public class VacasController {
 	}
 
 	private static String setCor(Vaca v) {
-		if (v.getEnsiminacao() == null || v.getNovaEnsiminacao() == null || v.getParto() == null
-				|| v.getSecagem() == null) {
+		LocalDate now = LocalDate.now();
+		if (v.getEnsiminacao() == null || v.getSecagem() == null) {
+			if (v.getParto() != null || v.getNovaEnsiminacao() != null ) {
+				if (now.isAfter(v.getNovaEnsiminacao())) {
+					if (now.isAfter(v.getNovaEnsiminacao().plusDays(20)))
+						return "255 0 0";
+					return "0 255 0";
+				}			
+			}
 			return "255 255 255";
 		}
-		LocalDate now = LocalDate.now();
 		if (now.isBefore(v.getSecagem())) {
 			return "255 255 255";
 		} else if (now.isBefore(v.getParto())) {

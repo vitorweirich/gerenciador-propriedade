@@ -93,12 +93,12 @@ QPushButton:hover#nova_vaca_2
 {
   font-size: 20px;
 }
-QPushButton#pesquisar
+QPushButton#alterar
 {
   background-color: rgb(255, 85, 255);
   font-size: 16px;
 }
-QPushButton:hover#pesquisar
+QPushButton:hover#alterar
 {
   font-size: 20px;
 }
@@ -113,12 +113,12 @@ QPushButton:hover#pesquisar_2
 {
   font-size: 20px;
 }
-QPushButton#seca
+QPushButton#secar
 {
   background-color: rgb(255, 255, 255);
   font-size: 16px;
 }
-QPushButton:hover#seca
+QPushButton:hover#secar
 {
   font-size: 20px;
 }
@@ -526,7 +526,7 @@ text-align: center;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pesquisar">
+      <widget class="QPushButton" name="alterar">
        <property name="maximumSize">
         <size>
          <width>400</width>
@@ -546,12 +546,12 @@ text-align: center;</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Pesquisar</string>
+        <string>Alterar</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="seca">
+      <widget class="QPushButton" name="secar">
        <property name="maximumSize">
         <size>
          <width>400</width>
@@ -571,7 +571,7 @@ text-align: center;</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Seca</string>
+        <string>Secar</string>
        </property>
       </widget>
      </item>

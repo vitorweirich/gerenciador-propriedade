@@ -97,6 +97,9 @@ QLineEdit:focus
     </property>
    </widget>
    <widget class="QPushButton" name="cadastrar">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>

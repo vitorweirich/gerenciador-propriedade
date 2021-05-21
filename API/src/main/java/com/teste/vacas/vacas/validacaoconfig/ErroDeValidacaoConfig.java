@@ -49,7 +49,7 @@ public class ErroDeValidacaoConfig {
 	@ExceptionHandler(NumeroEcxeption.class)
 	public ErroDeFormularioDto handle(NumeroEcxeption exception) {
 
-		return new ErroDeFormularioDto("id", exception.getMessage());
+		return new ErroDeFormularioDto("numero", exception.getMessage());
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)

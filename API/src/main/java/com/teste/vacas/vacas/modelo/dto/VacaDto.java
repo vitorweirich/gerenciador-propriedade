@@ -23,16 +23,17 @@ public class VacaDto {
 	private Integer nCrias;
 	private String cor;
 	private String diasLactacao;
-
+	private String repeticao = "nada";
 
 	public VacaDto(Vaca vaca) {
 		this.numero = vaca.getNumero();
 		this.nome = vaca.getNome();
-		if (vaca.getEnsiminacao() == null || vaca.getSecagem() == null || vaca.getParto() == null || vaca.getNovaEnsiminacao() == null) {
+		if (vaca.getEnsiminacao() == null || vaca.getSecagem() == null || vaca.getParto() == null
+				|| vaca.getNovaEnsiminacao() == null) {
 			this.ensiminacao = "";
 			this.secagem = "";
 			this.parto = "";
-			this.novaEnsiminacao = "";	
+			this.novaEnsiminacao = "";
 			this.diasLactacao = "";
 		} else {
 			this.ensiminacao = vaca.getEnsiminacao().format(formaterBr).replace('-', '/');
@@ -52,13 +53,21 @@ public class VacaDto {
 		Integer cont = 0;
 		LocalDate now = LocalDate.now();
 		if (now.isAfter(data)) {
-			while(!data.equals(now)) {
+			while (!data.equals(now)) {
 				data = data.plusDays(1L);
 				cont++;
-			}			
-			return ""+cont;
+			}
+			return "" + cont;
 		}
 		return "";
+	}
+
+	public String getRepeticao() {
+		return repeticao;
+	}
+
+	public void setRepeticao(String repeticao) {
+		this.repeticao = repeticao;
 	}
 
 	public static DateTimeFormatter getFormaterBr() {
@@ -72,11 +81,11 @@ public class VacaDto {
 	public String getDiasLactacao() {
 		return diasLactacao;
 	}
-	
+
 	public void setDiasLactacao(String diasLactacao) {
 		this.diasLactacao = diasLactacao;
 	}
-	
+
 	public String getNumero() {
 		return numero;
 	}

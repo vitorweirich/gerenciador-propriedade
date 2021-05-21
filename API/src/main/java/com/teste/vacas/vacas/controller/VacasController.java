@@ -39,7 +39,7 @@ public class VacasController {
 	@Autowired
 	private VacasRepository vacasRepository;
 
-	private final List<String> cores = Arrays.asList("amarelo", "verde", "branco", "cinza", "vermelho");
+	private final List<String> cores = Arrays.asList("128 128 128", "0 255 0", "255 255 0", "128 128 128", "255 0 0");
 
 	@GetMapping
 	public List<VacaDto> buscarVacas(@RequestParam(required = false) Optional<String> cor) {
@@ -127,21 +127,21 @@ public class VacasController {
 	private static String setCor(Vaca v) {
 		if (v.getEnsiminacao() == null || v.getNovaEnsiminacao() == null || v.getParto() == null
 				|| v.getSecagem() == null) {
-			return "branco";
+			return "255 255 255";
 		}
 		LocalDate now = LocalDate.now();
 		if (now.isBefore(v.getSecagem())) {
-			return "branco";
+			return "255 255 255";
 		} else if (now.isBefore(v.getParto())) {
 			if (now.isAfter(v.getSecagem().plusDays(20))) {
-				return "cinza";
+				return "128 128 128";
 			}
-			return "amarelo";
+			return "255 255 0";
 		} else if (now.isBefore(v.getNovaEnsiminacao())) {
-			return "branco";
+			return "255 255 255";
 		} else if (now.isAfter(v.getNovaEnsiminacao().plusDays(40L))) {
-			return "vermelho";
+			return "255 0 0";
 		}
-		return "verde";
+		return "0 255 0";
 	}
 }

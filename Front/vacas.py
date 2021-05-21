@@ -95,18 +95,12 @@ def deletar():
    if not verifica_valor_numero():
       return
    linha = interface.tabela.currentRow()
-   msg = QMessageBox()
-   msg.setWindowTitle("Tem certeza")
-   msg.setText("Voce deseja deletar a vaca '"+interface.tabela.item(linha, 0).text()+"'?")
-   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-   
-   msg.setDefaultButton(QMessageBox.Cancel)
-   x = msg.exec_()
-   if x == QMessageBox.Ok:
+   if mostraMsgmBtn("Tem certeza", "Voce deseja deletar a vaca '"
+                    +interface.tabela.item(linha, 0).text()+"'?") == QMessageBox.Ok:
       numero = interface.tabela.item(linha, 1).text()
       try:
          request = requests.get("http://localhost:8080/vacas/deletar/"+numero)
-         mostraMsgm("Vaca deletada!", f"A vaca {interface.tabela.item(linha, 0).text()} foi deletada do sistema")
+         mostraMsgm("Vaca deletada!", f"A vaca '{interface.tabela.item(linha, 0).text()}' foi deletada do sistema")
          listar_vacas('')
       except:
          mostraMsgm("Erro", f"Não foi possível deletar a vaca {interface.tabela.item(linha, 0).text()}")
@@ -133,14 +127,8 @@ def secar():
    if not verifica_valor_numero():
       return
    linha = interface.tabela.currentRow()
-   msg = QMessageBox()
-   msg.setWindowTitle("Tem certeza")
-   msg.setText("Voce deseja secar a vaca '"+interface.tabela.item(linha, 0).text()+"'?")
-   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-   
-   msg.setDefaultButton(QMessageBox.Cancel)
-   x = msg.exec_()
-   if x == QMessageBox.Ok:
+   if mostraMsgmBtn("Tem certeza", "Voce deseja secar a vaca '"
+                   +interface.tabela.item(linha, 0).text()+"'?") == QMessageBox.Ok:
       numero = interface.tabela.item(linha, 1).text()
       try:
          request = requests.get("http://localhost:8080/vacas/secar/"+numero)
@@ -154,14 +142,8 @@ def parto():
    if not verifica_valor_numero():
       return
    linha = interface.tabela.currentRow()
-   msg = QMessageBox()
-   msg.setWindowTitle("Tem certeza")
-   msg.setText("Voce deseja mudar a data do parto da vaca '"+interface.tabela.item(linha, 0).text()+"' para hoje?")
-   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-   
-   msg.setDefaultButton(QMessageBox.Cancel)
-   x = msg.exec_()
-   if x == QMessageBox.Ok:
+   if mostraMsgmBtn("Tem certeza", "Voce deseja mudar a data do parto da vaca '"
+                    +interface.tabela.item(linha, 0).text()+"' para hoje?") == QMessageBox.Ok:
       numero = interface.tabela.item(linha, 1).text()
       try:
          request = requests.get("http://localhost:8080/vacas/parto/"+numero)
@@ -175,14 +157,9 @@ def zerar():
    if not verifica_valor_numero():
       return
    linha = interface.tabela.currentRow()
-   msg = QMessageBox()
-   msg.setWindowTitle("Tem certeza")
-   msg.setText("Voce deseja zerar aa datas da vaca '"+interface.tabela.item(linha, 0).text()+"'?")
-   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
    
-   msg.setDefaultButton(QMessageBox.Cancel)
-   x = msg.exec_()
-   if x == QMessageBox.Ok:
+   if mostraMsgmBtn("Tem certeza", "Voce deseja zerar as datas da vaca '"
+                    +interface.tabela.item(linha, 0).text()+"'?") == QMessageBox.Ok:
       numero = interface.tabela.item(linha, 1).text()
       try:
          request = requests.get("http://localhost:8080/vacas/zerar/"+numero)
@@ -204,10 +181,21 @@ def verifica_nova():
    else:
       nova.cadastrar.setEnabled(False)
 
+def mostraMsgmBtn(titulo, mensagem):
+   msg = QMessageBox()
+   msg.setWindowTitle(titulo)
+   msg.setText(mensagem)
+   msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+   msg.setWindowIcon(QtGui.QIcon("vacas.ico"))
+   msg.setDefaultButton(QMessageBox.Cancel)
+   return msg.exec_()
+
 def mostraMsgm(titulo, msgm):
     msg = QMessageBox()
     msg.setWindowTitle(titulo)
     msg.setText(msgm)
+    msg.setWindowIcon(QtGui.QIcon("vacas.ico"))
+    msg.setStyleSheet("background-color: darkGray;")
     #msg.show()
     return msg.exec_()
         
@@ -252,6 +240,10 @@ alterar = uic.loadUi("alterar.ui")
         #Definindo alguns estilos
 interface.setWindowTitle("Cadastro de Vacas")
 interface.setWindowIcon(QtGui.QIcon("vacas.ico"))
+nova.setWindowIcon(QtGui.QIcon("vacas.ico"))
+calc.setWindowIcon(QtGui.QIcon("vacas.ico"))
+progresso.setWindowIcon(QtGui.QIcon("vacas.ico"))
+alterar.setWindowIcon(QtGui.QIcon("vacas.ico"))
 interface.centralwidget.setStyleSheet("QWidget#tab{background-color: black;}QWidget#tab_2{background-color: black;}QTableWidget::item#tabela{ selection-background-color: blue; selection-color: black;}")                                    
 
         #Configurando Botões De Pesquisa
@@ -291,8 +283,10 @@ try:
     progresso.show()
     app.exec()
 finally:
-    try:
-        url = 'http://localhost:8080/actuator/shutdown'
-        requests.post(url)
-    except:
-        sys.exit ()
+   try:
+      time.sleep(25)
+      print("Try finally")
+      url = 'http://localhost:8080/actuator/shutdown'
+      requests.post(url)
+   except:
+      sys.exit ()

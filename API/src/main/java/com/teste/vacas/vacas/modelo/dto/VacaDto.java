@@ -23,7 +23,7 @@ public class VacaDto {
 	private Integer nCrias;
 	private String cor;
 	private String diasLactacao;
-	private String repeticao = "nada";
+	private String repeticao = "";
 
 	public VacaDto(Vaca vaca) {
 		this.numero = vaca.getNumero();

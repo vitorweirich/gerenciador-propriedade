@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Build ###
+Front/dist/
+Front/__pycache__/
+Front/build/
+

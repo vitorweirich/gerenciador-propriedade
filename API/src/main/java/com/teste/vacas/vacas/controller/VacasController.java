@@ -170,20 +170,21 @@ public class VacasController {
 					if (now.isAfter(v.getNovaEnsiminacao().plusDays(20)))
 						return "255 0 0";
 					return "0 255 0";
-				}			
+				}
+				return "115 6 53";			
 			}
 			return "255 255 255";
 		}
 		if (now.isBefore(v.getSecagem())) {
 			return "255 255 255";
 		} else if (now.isBefore(v.getParto())) {
-			if (now.isAfter(v.getSecagem().plusDays(20))) {
-				return "128 128 128";
+			if (now.isBefore(v.getSecagem().plusDays(20))) {
+				return "255 255 0";
 			}
-			return "255 255 0";
+			return "128 128 128";
 		} else if (now.isBefore(v.getNovaEnsiminacao())) {
-			return "255 255 255";
-		} else if (now.isAfter(v.getNovaEnsiminacao().plusDays(40L))) {
+			return "115 6 53";
+		} else if (now.isAfter(v.getNovaEnsiminacao().plusDays(20L))) {
 			return "255 0 0";
 		}
 		return "0 255 0";

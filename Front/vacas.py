@@ -271,13 +271,13 @@ alterar.editAlterar.textChanged.connect(lambda: verifica_btn_alterar())
 interface.zarar.clicked.connect(lambda: zerar())
 progresso.carregar.clicked.connect(lambda: lista_vacas_inicial(''))
 
-try:
-    sp.Popen([".\\vacas.jar"],
-             shell=True)
-except:
-    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
-              "esteja na mesma pasta que esse .exe !!!!")
-    sys.exit ()
+##try:
+##    sp.Popen([".\\vacas.jar"],
+##             shell=True)
+##except:
+##    mostraMsgm("Falha ao subir o servidor", "Certifique-se de que o arquivo 'vacas.jar'"+
+##              "esteja na mesma pasta que esse .exe !!!!")
+##    sys.exit ()
 
 try:
     progresso.show()
